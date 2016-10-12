@@ -1,61 +1,50 @@
-
-# This is the server logic for a Shiny web application.
-# You can find out more about building applications with Shiny here:
-#
-# http://shiny.rstudio.com
-#
-
 library(shiny)
-
+library(ggplot2)
+data <- mtcars
 shinyServer(function(input, output) {
-  
-  mtcars$mpgsp <- ifelse(mtcars$mpg - 20 > 0 , mtcars$mpg - 20 , 0)
-  model1 <- lm(hp ~ mpg , data = mtcars)
-  model2 <- lm(hp ~ mpgsp + mpg , data = mtcars)
-  
-  model1pred <- reactive({
-    mpgInput <- input$sliderMPG
-    predict(model1 , newdata = data.frame(mpg = mpgInput))
+  myXY <- reactive({
+    paste("mpg ~", "as.integer(", input$x,")")
   })
   
-  model2pred <- reactive({
-    mpgInput <- input$sliderMPG
-    predict(model2 , newdata =
-              data.frame(mpg= mpgInput,
-                         mpgsp = ifelse(mpgInput - 20 > 0,
-                                        mpgInput- 20, 0)))
+  myFit <- reactive({
+    lm(as.formula(myXY()),data=data)
   })
   
-  output$distPlot <- renderPlot({
-    mpgInput <- input$sliderMPG
+  output$summary <- renderPrint({
+    predictor <- input$x
+    if(predictor == "cyl")
+      summary(mtcars$cyl)
+    else if(predictor == "disp")
+      summary(mtcars$disp)
+    else if(predictor == "hp")
+      summary(mtcars$hp)
+    else if(predictor == "drat")
+      summary(mtcars$drat)
+    else if(predictor == "wt")
+      summary(mtcars$wt)
+    else if(predictor == "qsec")
+      summary(mtcars$qsec)
+    else if(predictor == "vs")
+      summary(mtcars$vs)
+    else if(predictor == "am")
+      summary(mtcars$am)
+    else if(predictor == "gear")
+      summary(mtcars$gear)
+    else if(predictor == "carb")
+      summary(mtcars$carb)
+    else if(predictor == "mpg")
+      summary(mtcars$mpg)
     
-    plot(mtcars$mpg, mtcars$hp , xlab = "Miles Per Gallon" ,
-         ylab = "Horsepower" , bty = "n" , pch = 16,
-         xlim = c(10,35) , ylim = c(50,350))
-    
-    if(input$showModel1){
-      abline(model1,col ="red",lwd = 2)
-    }
-    
-    if(input$showModel2){
-      model2lines <- predict(model2 , newdata = data.frame(
-        mpg = 10:35 , mpgsp = ifelse(10:35 -20 > 0 , 10:35 - 20 ,  0)
-      ))
-      lines(10:35,model2lines,col="blue" , lwd = 2)
-    }
-    
-    legend(25,250,c("Mode 1 Prediction","Model 2 Prediction"),pch = 16,
-           col = c("red","blue"),bty = "n", cex = 1.2)
-    points(mpgInput , model1pred(),col = "red" , pch = 16 , cex = 2)
-    points(mpgInput , model1pred(), col ="blue" , pch = 16 , cex = 2)
   })
   
-  output$pred1 <- renderText({
-    model1pred()
+  
+  output$text <- renderText({
+    paste("Regression Model:", "mpg ~", input$x)
   })
   
-  output$pred2 <- renderText({
-    model2pred()
+  output$myPlot <- renderPlot ({
+    with(data, {plot(as.formula(myXY()),xlab=input$x,ylab="mpg")
+      abline(myFit(), col=input$color)
+    })
   })
-
 })

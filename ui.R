@@ -1,32 +1,31 @@
-
-# This is the user-interface definition of a Shiny web application.
-# You can find out more about building applications with Shiny here:
-#
-# http://shiny.rstudio.com
-#
-
 library(shiny)
-
+library(datasets)
+require(graphics)
 shinyUI(fluidPage(
-
-  # Application title
-  titlePanel("Predict horsepower from MPG"),
-
-  # Sidebar with a slider input for number of bins
-  sidebarLayout(
-    sidebarPanel(
-      sliderInput("sliderMPG","What is the MPG of the car ?",10,35,value = 30),
-      checkboxInput("showModel1" , "Show/Hide Model 1" , value = TRUE),
-      checkboxInput("showModel2" , " Show/Hide Model 2" , value =  TRUE)
-    ),
-
-    # Show a plot of the generated distribution
-    mainPanel(
-      plotOutput("distPlot"),
-      h3("Predicted Horsepower from Model 1 :"),
-      textOutput("pred1"),
-      h3("Predicted Horsepower from Model 2 :"),
-      textOutput("pred2")
-    )
-  )
+  headerPanel(h2("Developing Data Products: Coursera Project") ),
+  
+  # description and input
+  sidebarPanel(
+    h3('Input Panel'),
+    p('Here we can play with mtcars dataset.'),
+    p('Select the predictor variable with mpg as outcome:'),
+    selectInput('x', label='Predictor', selected='cyl', choices=names(mtcars)),
+    p('It is possible to choose the line color.'),
+    selectInput('color', label='Color', choices=palette()),
+    h3('Documentation'),
+    p("This project uses the 'mtcars' dataset to plot the",
+      "regression model using two variables of this dataset:",
+      "one as predictor, what we have to choose, and the",
+      "other is 'mpg' as the outcome."),
+    
+    p("It is simple to use and when the predictor is selected",
+      "the plot is updated putting the new fit.")),
+  
+  # plot and output
+  mainPanel(
+    h4('Summary of Selected Attribute'),
+    h4(verbatimTextOutput("summary")),
+    h4(textOutput('text')),
+    plotOutput('myPlot'))
+  
 ))

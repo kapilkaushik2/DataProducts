@@ -11,9 +11,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Project Detail
 
-A simple shiny application that has been built and published to predict Horsepower from MPG by generating linear models using mpg vaiables of "matcars" dataset.
+A simple shiny application that has been built and published to generate the linear regression between two variables the of "matcars" dataset.
 
-In this application , the user select mpg from the slider input and the output is prediction of horsepower from two models which are created based on the mpg selected from slider.
+In this application , the user choose the predictor and outcome is always fixed as "mpg".
 
 Appliation can be viewed at :
 
@@ -33,9 +33,10 @@ head(mtcars)
 
 ## How it works
 
-- The user selects the mpg values from slider
-- Checkbox to show/hide models
-- When the user provide the values using slider , plot and predcitons are updated.
+- The user select the predictor.
+- The user select a color of the regression line.
+- When the user provide the values , plot is updated.
+- It also shows the summary of the predicted variable selected.
 
 ## Thanks
 
