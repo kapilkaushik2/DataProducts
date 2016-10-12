@@ -17,16 +17,18 @@ In this application , the user select mpg from the slider input and the output i
 
 Appliation can be viewed at :
 
-- Shiny Server link < https://kapil-kaushik.shinyapps.io/Shiny_Project/>
-- GitHub repo <>
+- Shiny Server link : 
+    https://kapil-kaushik.shinyapps.io/Shiny_Project/
+- GitHub repo : 
+    https://github.com/kapilkaushik2/DataProducts
 
 ## Summary of dataset
 
 The data was extracted from the 1974 Motor Trend US magazine and comprises fuel consumption and 10 aspects of automobile design and performance of 32 automobiles.
 
 The mtcars dataset has 32 entried with 11 columns as follows:
-```{r cars, echo = TRUE}
-summary(mtcars)
+```{r cars, echo = TRUE , comment=""}
+head(mtcars)
 ```
 
 ## How it works
@@ -35,7 +37,5 @@ summary(mtcars)
 - Checkbox to show/hide models
 - When the user provide the values using slider , plot and predcitons are updated.
 
-```{r pressure}
-plot(pressure)
-```
+## Thanks
 
